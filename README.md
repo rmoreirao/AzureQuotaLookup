@@ -22,7 +22,7 @@ Output is a flat list of objects (and optional CSV) with current usage, limit, a
 | `-Provider` | `string[]` | Resource provider namespaces to query (e.g. `Microsoft.Compute`). Defaults to a curated list of ~30 providers matching the portal's Usage + quotas blade. |
 | `-Location` | `string[]` | Azure regions to limit the query to (e.g. `eastus`, `westeurope`). Defaults to every region where the provider is available. |
 | `-OutputCsv` | `string` | Optional path. When set, results are also exported to CSV (UTF-8, comma-separated). |
-| `-IncludeZeroUsage` | `switch` | Keep rows where both `CurrentValue` and `Limit` are `0` (filtered out by default). |
+| `-IncludeZeroUsage` | `switch` | Keep rows where `CurrentValue` is `0` (filtered out by default). |
 | `-ThrottleLimit` | `int` (1–64) | Max concurrent HTTP requests per subscription. Default `16`. Set to `1` to disable parallelism. PowerShell 7+ only. |
 
 ## Output object
@@ -92,7 +92,7 @@ A bearer token is acquired once per subscription and reused across parallel runs
 
 ## Notes
 
-- Rows where both `CurrentValue` and `Limit` are `0` are dropped by default as noise — use `-IncludeZeroUsage` to keep them.
+- Rows where `CurrentValue` is `0` are dropped by default as noise — use `-IncludeZeroUsage` to keep them.
 - A provider that isn't registered in the target subscription, or that doesn't expose `Microsoft.Quota` for a given region, is skipped silently. Use `-Verbose` to see per-call diagnostics.
 - The default provider list mirrors the Azure portal's Usage + quotas blade and includes Compute, Network, Storage, AKS, Container Apps, Cognitive Services / Azure OpenAI, SQL, App Service, Key Vault, NetApp, AVS, and more.
 

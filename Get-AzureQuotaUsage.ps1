@@ -37,8 +37,8 @@
     this file (UTF-8, no BOM, comma-separated).
 
 .PARAMETER IncludeZeroUsage
-    By default, rows with both CurrentValue = 0 AND Limit = 0 are filtered
-    out (they are noise). Use this switch to keep them.
+    By default, rows with CurrentValue = 0 are filtered out (they are noise).
+    Use this switch to keep them.
 
 .EXAMPLE
     .\Get-AzureQuotaUsage.ps1 -OutputCsv .\quota-usage.csv
@@ -268,7 +268,7 @@ foreach ($subId in $SubscriptionId) {
                 $limitRaw = if ($limitByCode.ContainsKey($code)) { $limitByCode[$code] } else { $null }
                 $limit    = if ($null -ne $limitRaw) { [int64]$limitRaw } else { $null }
 
-                if (-not $includeZero -and $current -le 0 -and ($null -eq $limit -or $limit -le 0)) { continue }
+                if (-not $includeZero -and $current -le 0) { continue }
                 $pct = if ($limit -and $limit -gt 0) { [math]::Round(($current / $limit) * 100, 2) } else { $null }
 
                 $out.Add([pscustomobject]@{
@@ -322,7 +322,7 @@ foreach ($subId in $SubscriptionId) {
                 $limitRaw = if ($limitByCode.ContainsKey($code)) { $limitByCode[$code] } else { $null }
                 $limit    = if ($null -ne $limitRaw) { [int64]$limitRaw } else { $null }
 
-                if (-not $includeZero -and $current -le 0 -and ($null -eq $limit -or $limit -le 0)) { continue }
+                if (-not $includeZero -and $current -le 0) { continue }
                 $pct = if ($limit -and $limit -gt 0) { [math]::Round(($current / $limit) * 100, 2) } else { $null }
 
                 $out.Add([pscustomobject]@{
